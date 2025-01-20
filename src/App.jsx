@@ -18,6 +18,7 @@ import SingleProjectPage from './pages/ProjectPage/SingleProjectPage';
 import Visualization from './pages/Visualization'
 
 import ProtectedRoute from './components/ProtectedRoute';
+import { UploadPage } from './pages/UploadPage'
 
 function App() {
 
@@ -69,6 +70,14 @@ function App() {
           }
         />
         
+        <Route
+          path="/upload"
+          element={
+            <ProtectedRoute>
+              <UploadPage />
+            </ProtectedRoute>
+          }
+        />
         {/* Single Page */}
         <Route
           path="/dataset/:id"
