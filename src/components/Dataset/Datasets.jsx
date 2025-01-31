@@ -71,6 +71,19 @@ export default function Datasets({ title = "Recent Datasets", size = "small", sh
     return (
       <React.Fragment>
         <Title>{title}</Title>
+        <Button 
+          variant="contained" 
+          color="primary" 
+          sx={{ 
+            textTransform: 'none', 
+            padding: '3px 10px', 
+            fontSize: '12px', 
+            minWidth: '70px' 
+          }} 
+          onClick={() => navigate('/upload')}
+        >
+          Upload
+        </Button>
         <Table size={size}>
           <TableHead>
             <TableRow>
