@@ -30,6 +30,7 @@ import TableRow from '@mui/material/TableRow';
 import Title from '../../components/Dashboard/Title';
 import { useState } from 'react';
 import TablePagination from '@mui/material/TablePagination';
+import Tooltip from '@mui/material/Tooltip';
 
 import { useDispatch } from 'react-redux';
 import { logout } from '../../actions/authActions'
@@ -138,6 +139,8 @@ export default function AllDatasets() {
     dispatch(logout()); // Dispatch the logout action
     navigate('/login'); // Redirect to the login page
   };
+
+  
   
   
 
@@ -170,7 +173,7 @@ export default function AllDatasets() {
               noWrap
               sx={{ flexGrow: 1 }}
             >
-              Dataset 
+              TUFT Data Environment - Data Registry
             </Typography>
             <div style={{ display: 'flex', 
                           alignItems: 'center',
@@ -251,11 +254,43 @@ export default function AllDatasets() {
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                 <Grid container spacing={3}>
-                    <Grid item xs={12}>
-                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
+                    
+                    <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <Paper sx={{ p: 4, flexGrow: 1 }}>
                         <Typography variant="h5" gutterBottom>
-                            Dataset Title 
+                          Whole-exome sequencing of Lung Cancer Tumour-Normal pairs
                         </Typography>
+                        <Typography variant="h6" sx={{ color: 'gray', lineHeight: '2' }} gutterBottom>
+                          TDE0001
+                        </Typography>
+                        <Typography variant="body1">
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vehicula, mauris eget ullamcorper pellentesque, risus dolor consequat ligula, a dictum lacus odio at odio. Integer cursus dui at libero hendrerit, vitae auctor metus tempus. Duis facilisis justo ut orci varius, at molestie metus sollicitudin. Nunc accumsan, lorem eget luctus euismod, metus augue facilisis libero, eget egestas lectus libero eget magna.
+                        </Typography>
+                    </Paper>
+                    </Grid>
+
+                    <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <Paper sx={{ p: 4, flexGrow: 1 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Raw Data</Typography>
+                        <Typography variant="body2">Located: WEHI Milton /vast/projects/TDE/TDE0001</Typography>
+                        <Divider sx={{ my: 2 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Copy code for raw data</Typography>
+                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }}>WEHI Jupyter Notebook</Button>
+                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }}>Nextflow</Button>
+                        <Button variant="outlined" sx={{ mt: 1 }}>WEHI RStudio</Button>
+                        <Divider sx={{ my: 2 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Data Portals</Typography>
+                        <Tooltip title="cBioPortal">
+                          <Button variant="contained" sx={{ backgroundColor: '#FFD700', color: 'black', mt: 1 }} component={Link} href="https://www.cbioportal.org/" target="_blank">
+                            cBioPortal
+                          </Button>
+                        </Tooltip>
+                        <Divider sx={{ my: 2 }} />
+                        <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Other views</Typography>
+                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/dashboard')}>All Samples View</Button>
+                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/datasets')}>All Datasets View</Button>
+                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/patients')}>All Samples Summary</Button>
+                        <Button variant="outlined" sx={{ mt: 1 }}>Files for this dataset</Button>
                     </Paper>
                     </Grid>
                 </Grid>
