@@ -34,6 +34,8 @@ import Tooltip from '@mui/material/Tooltip';
 
 import { useDispatch } from 'react-redux';
 import { logout } from '../../actions/authActions'
+import dataset from '../../assets/testjson/output.json';
+
 
 // Generate Order Data, this will be replaced with data from the backend
 function createData(id, dId, date, name, source) {
@@ -139,10 +141,6 @@ export default function AllDatasets() {
     dispatch(logout()); // Dispatch the logout action
     navigate('/login'); // Redirect to the login page
   };
-
-  
-  
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -272,7 +270,7 @@ export default function AllDatasets() {
                     <Grid item xs={4} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <Paper sx={{ p: 4, flexGrow: 1 }}>
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Raw Data</Typography>
-                        <Typography variant="body2">Located: WEHI Milton /vast/projects/TDE/TDE0001</Typography>
+                        <Typography variant="body2">Located: WEHI Milton {dataset.data.location}</Typography>
                         <Divider sx={{ my: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Copy code for raw data</Typography>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }}>WEHI Jupyter Notebook</Button>
@@ -280,9 +278,9 @@ export default function AllDatasets() {
                         <Button variant="outlined" sx={{ mt: 1 }}>WEHI RStudio</Button>
                         <Divider sx={{ my: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Data Portals</Typography>
-                        <Tooltip title="cBioPortal">
-                          <Button variant="contained" sx={{ backgroundColor: '#FFD700', color: 'black', mt: 1 }} component={Link} href="https://www.cbioportal.org/" target="_blank">
-                            cBioPortal
+                        <Tooltip title="Omero">
+                          <Button variant="outlined" sx={{ mr: 2, mt: 1 }} component={Link} href="http://115.146.84.23:4080" target="_blank">
+                            Omero
                           </Button>
                         </Tooltip>
                         <Divider sx={{ my: 2 }} />
