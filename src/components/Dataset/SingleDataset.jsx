@@ -133,6 +133,19 @@ export default function AllDatasets() {
   const toggleDrawer = () => {
     setOpen(!open);
   };
+  
+  const rawDataLocation = dataset.data.location; // Extract base path
+  const rawFiles = dataset.data.files.raw.map(file => `'${file.directory}'`); // Extract file paths
+
+  // Format as Python code
+  const pythonCode = `import os\n\nbase_path = '${rawDataLocation}'\nraw_file_array = [\n  ${rawFiles.join(",\n  ")}\n]\n`;
+
+  // Copy function
+  const handleCopy = () => {
+    navigator.clipboard.writeText(pythonCode)
+      .then(() => alert("Python snippet copied to clipboard!"))
+      .catch(err => console.error("Failed to copy:", err));
+  };
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -273,7 +286,7 @@ export default function AllDatasets() {
                         <Typography variant="body2">Located: WEHI Milton {dataset.data.location}</Typography>
                         <Divider sx={{ my: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Copy code for raw data</Typography>
-                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }}>WEHI Jupyter Notebook</Button>
+                        <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={handleCopy}>WEHI Jupyter Notebook</Button>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }}>Nextflow</Button>
                         <Button variant="outlined" sx={{ mt: 1 }}>WEHI RStudio</Button>
                         <Divider sx={{ my: 2 }} />
