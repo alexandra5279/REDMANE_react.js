@@ -16,25 +16,26 @@ import MelbUniLogo from '../assets/logos/unimelb-logo.png';
 import BusinessIcon from '@mui/icons-material/Business';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';  // Import useDispatch hook
-import { login } from '../actions/authActions';  // Import login action
+import { useDispatch } from 'react-redux';
+import { login } from '../actions/authActions';  // Import Redux login action
+import keycloak from '../keycloak';  // 引入 Keycloak 实例
 
 const defaultTheme = createTheme();
 
 export default function SignIn() {
-
   const navigate = useNavigate();
-  const dispatch = useDispatch();  // Initialize dispatch function
+  const dispatch = useDispatch();  // Initialize Redux dispatch
 
+  // Simulated login form submission logic
   const handleSubmit = (event) => {
     event.preventDefault();
     
-    // Get the form data
+    // Get form data
     const data = new FormData(event.currentTarget);
     const email = data.get('email');
     const password = data.get('password');
 
-    // Replace this with actual authentication logic
+    // Simulated authentication logic (replace with real logic)
     const isAuthenticated = email === '' && password === '';
 
     if (isAuthenticated) {
@@ -45,6 +46,32 @@ export default function SignIn() {
     }
   };
 
+  const handleInstitutionLogin = async () => {
+    if (!keycloak) {
+      console.error("Keycloak 实例未初始化");
+      return;
+    }
+  
+    // 如果用户已经认证，则直接跳转
+    if (keycloak.authenticated) {
+      dispatch(login());
+      console.log("用户已认证，直接跳转到 Dashboard");
+      navigate('/dashboard');
+      return;
+    }
+  
+    try {
+      console.log("Keycloak 登录中...");
+      // 让 Keycloak 自己在登录成功后重定向到 /dashboard
+      await keycloak.login({
+        redirectUri: window.location.origin + '/dashboard'
+      });
+      
+    } catch (err) {
+      console.error("Keycloak 登录失败", err);
+    }
+  };
+  
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -100,12 +127,12 @@ export default function SignIn() {
               Sign In
             </Button>
             <Button
-              type="submit"
+              onClick={handleInstitutionLogin}  // Trigger Keycloak login
               fullWidth
               variant="contained"
               sx={{ mt: 1, mb: 2 }}
             >
-              <BusinessIcon sx={{mr: 1 }}/>
+              <BusinessIcon sx={{mr: 1 }} />
               Sign In Through Your Institution
             </Button>
             <Grid container>
