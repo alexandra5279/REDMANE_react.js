@@ -20,32 +20,11 @@ import Visualization from './pages/Visualization'
 import ProtectedRoute from './components/ProtectedRoute';
 import { UploadPage } from './pages/UploadPage'
 import ProjectSummary from './pages/ProjectSumaryPage'
-import { useEffect } from 'react'; 
-import { useNavigate } from 'react-router-dom';
-import keycloak from './keycloak'; 
-
-const AuthHandler = () => {
-  const navigate = useNavigate();
-  const [checkedAuth, setCheckedAuth] = useState(false); // 追踪是否检查过认证状态
-
-  useEffect(() => {
-    if (checkedAuth) return; // 避免重复触发
-
-    if (keycloak.authenticated) {
-      console.log("用户已认证，跳转到 Dashboard");
-      setCheckedAuth(true); // 标记认证已检查
-      navigate('/dashboard');
-    }
-  }, [checkedAuth, navigate]);
-
-  return null;
-};
 
 function App() {
 
   return (
     <Router>
-      <AuthHandler /> 
       <Routes>
         <Route path="/" element={<HomePage />}/>
         <Route path="/login" element={<LoginPage />} />

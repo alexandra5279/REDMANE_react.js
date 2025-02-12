@@ -17,8 +17,8 @@ import BusinessIcon from '@mui/icons-material/Business';
 import Footer from './Footer';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { login } from '../actions/authActions';  // Import Redux login action
-import keycloak from '../keycloak';  // 引入 Keycloak 实例
+import { login } from '../actions/authActions'; 
+import keycloak from '../keycloak';  
 
 const defaultTheme = createTheme();
 
@@ -48,30 +48,25 @@ export default function SignIn() {
 
   const handleInstitutionLogin = async () => {
     if (!keycloak) {
-      console.error("Keycloak 实例未初始化");
-      return;
+        console.error("Keycloak instance is not initialized");
+        return;
     }
-  
-    // 如果用户已经认证，则直接跳转
-    if (keycloak.authenticated) {
-      dispatch(login());
-      console.log("用户已认证，直接跳转到 Dashboard");
-      navigate('/dashboard');
-      return;
-    }
-  
+
     try {
-      console.log("Keycloak 登录中...");
-      // 让 Keycloak 自己在登录成功后重定向到 /dashboard
-      await keycloak.login({
-        redirectUri: window.location.origin + '/dashboard'
-      });
-      
+        console.log("Keycloak logging in...");
+        await keycloak.login();
     } catch (err) {
-      console.error("Keycloak 登录失败", err);
+        console.error("Keycloak login failed", err);
     }
-  };
-  
+};
+
+// Listen for Keycloak to perform a redirect after successful authentication.
+keycloak.onAuthSuccess = () => {
+    console.log("User authenticated, performing redirect");
+    dispatch(login());
+    navigate('/projects');
+};
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
