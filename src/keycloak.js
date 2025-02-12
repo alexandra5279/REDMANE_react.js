@@ -2,7 +2,7 @@ import Keycloak from 'keycloak-js';
 
 const keycloak = new Keycloak({
   url: 'http://localhost:8080',  // Keycloak 服务器地址
-  realm: 'MyRealm',             // 你的 Realm 名称
+  realm: 'WEHI',             // 你的 Realm 名称
   clientId: 'fastapi-client',   // 你的客户端 ID
 });
 
