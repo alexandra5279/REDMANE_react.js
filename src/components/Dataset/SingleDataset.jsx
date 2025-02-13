@@ -291,8 +291,10 @@ export default function AllDatasets() {
                         <Button variant="outlined" sx={{ mt: 1 }}>WEHI RStudio</Button>
                         <Divider sx={{ my: 2 }} />
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Data Portals</Typography>
+
+                        {/* Link to Omero data portal on data portal's team Nectar */}
                         <Tooltip title="Omero">
-                          <Button variant="outlined" sx={{ mr: 2, mt: 1 }} component={Link} href="http://115.146.84.23:4080" target="_blank">
+                          <Button variant="outlined" sx={{ mr: 2, mt: 1 }} component={Link} href="http://118.138.242.23:4080/webclient/?show=dataset-2" target="_blank">
                             Omero
                           </Button>
                         </Tooltip>

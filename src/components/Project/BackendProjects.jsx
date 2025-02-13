@@ -122,7 +122,7 @@ export default function BackendProjects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('http://115.146.84.144/projects/');
+        const response = await fetch('http://115.146.86.241:8000/projects/');
         if (!response.ok) {
           throw new Error(`Error: ${response.status}`);
         }

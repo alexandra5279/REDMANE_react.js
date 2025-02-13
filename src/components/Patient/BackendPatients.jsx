@@ -100,7 +100,7 @@ export default function AllPatients() {
       try {
         setPatients([]); // Clear the previous patients
 
-        let url = 'http://115.146.84.144/patients/';
+        let url = 'http://115.146.86.241:8000/patients/';
         if (projectId) {
           url += `?project_id=${projectId}`;
         }

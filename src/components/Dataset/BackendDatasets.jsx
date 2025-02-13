@@ -99,7 +99,7 @@ export default function AllDatasets() {
   useEffect(() => {
     const fetchDatasets = async () => {
       try {
-        let url = 'http://115.146.84.144/datasets/';
+        let url = 'http://115.146.86.241:8000/projects/';
         if (projectId) {
           url += `?project_id=${projectId}`;
         }
