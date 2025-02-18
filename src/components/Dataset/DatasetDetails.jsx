@@ -3,7 +3,7 @@ import { styled, createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import MuiDrawer from '@mui/material/Drawer';
 import Box from '@mui/material/Box';
-import { Button, Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
+import { Button, Dialog, DialogTitle, DialogContent, DialogActions, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
@@ -126,11 +126,30 @@ export default function AllDatasets() {
     setOpen(!open);
   };
   
-  const rawDataLocation = dataset.data.location; // Extract base path
-  const rawFiles = dataset.data.files.raw.map(file => file.directory); // Extract file paths without extra quotes
+  // Extract data dynamically from the dataset
+  const rawFiles = dataset.data.files.raw.map(file => ({
+    filename: file.file_name,
+    sampleId: file.sample_id,
+    patientId: file.patient_id,
+    location: 'WEHI', // Hardcoded for now; update if necessary
+    size: `${file.file_size}`, // Assuming file_size is in KB
+    redcap: 0 // Defaulting REDCap complete to 0; update if needed
+  }));
+
+  const dataFileUnit = dataset.data.file_size_unit;
   
+  const rawDataLocation = dataset.data.location; // Extract base path
+  const rawFilesDirectory = dataset.data.files.raw.map(file => file.directory); // Extract file paths without extra quotes
+  
+  // **Calculate Total Number of Files**
+  const totalFiles = rawFiles.length;
+
+  const totalFileSize = dataset.data.files.raw
+  .map(file => Number(file.file_size)) // Ensure numbers
+  .reduce((acc, size) => acc + size, 0); // Sum them up
+
   // Format as Python code
-  const pythonCode = `import os\n\nbase_path = '${rawDataLocation}'\nraw_file_array = [\n  ${rawFiles.map(file => `'${file}'`).join(",\n  ")}\n]\n`;
+  const pythonCode = `import os\n\nbase_path = '${rawDataLocation}'\nraw_file_array = [\n  ${rawFilesDirectory.map(file => `'${file}'`).join(",\n  ")}\n]\n`;
   
   const rCode = `
       # Define the base path
@@ -138,7 +157,7 @@ export default function AllDatasets() {
   
       # Define the raw file array
       raw_file_array <- c(
-        ${rawFiles.map(file => `"${file}"`).join(",\n  ")}
+        ${rawFilesDirectory.map(file => `"${file}"`).join(",\n  ")}
       )
   
       # Combine paths
@@ -291,6 +310,7 @@ export default function AllDatasets() {
         >
           <Toolbar />
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+            
                 <Grid container spacing={3}>
                     
                     <Grid item xs={8} sx={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
@@ -298,12 +318,40 @@ export default function AllDatasets() {
                         <Typography variant="h5" gutterBottom>
                           Whole-exome sequencing of Lung Cancer Tumour-Normal pairs
                         </Typography>
-                        <Typography variant="h6" sx={{ color: 'gray', lineHeight: '2' }} gutterBottom>
-                          TDE0001
-                        </Typography>
-                        <Typography variant="body1">
-                          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vehicula, mauris eget ullamcorper pellentesque, risus dolor consequat ligula, a dictum lacus odio at odio. Integer cursus dui at libero hendrerit, vitae auctor metus tempus. Duis facilisis justo ut orci varius, at molestie metus sollicitudin. Nunc accumsan, lorem eget luctus euismod, metus augue facilisis libero, eget egestas lectus libero eget magna.
-                        </Typography>
+                        <Typography variant="h7">All Raw Files View ({totalFiles} – {totalFileSize} KB)</Typography>
+
+                        <TableContainer component={Paper} sx={{ mt: 2 }}>
+                            <Table>
+                            <TableHead>
+                                <TableRow>
+                                <TableCell></TableCell>
+                                <TableCell>Filename</TableCell>
+                                <TableCell>Sample ID</TableCell>
+                                <TableCell>Patient ID</TableCell>
+                                <TableCell>Location</TableCell>
+                                <TableCell>Size</TableCell>
+                                <TableCell>REDCap complete</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {rawFiles.map((file) => (
+                                <TableRow key={file.filename}>
+                                    <TableCell>
+                                
+                                    </TableCell>
+                                    <TableCell>{file.filename}</TableCell>
+                                    <TableCell>{file.sampleId}</TableCell>
+                                    <TableCell>{file.patientId}</TableCell>
+                                    <TableCell>{file.location}</TableCell>
+                                    <TableCell>{file.size}{dataFileUnit}</TableCell>
+                                    <TableCell>{file.redcap}</TableCell>
+                                </TableRow>
+                                ))}
+                            </TableBody>
+                            </Table>
+                        </TableContainer>
+
+                        
                     </Paper>
                     </Grid>
 
@@ -328,12 +376,12 @@ export default function AllDatasets() {
                           <DialogContent>
                             <Paper elevation={3} sx={{ p: 3, borderRadius: 2 }}>
                             <DialogTitle sx={{ fontWeight: 'bold', textAlign: 'center' }}>Run SLURM pre-processing</DialogTitle>
-                              <Typography variant="body1"><b>Run number:</b> TDE0005-002</Typography>
+                              <Typography variant="body1"><b>Run number:</b> TDE0001-002</Typography>
                               <Typography variant="body1"><b>Pre-processing script:</b> /vast/projects/TDE/scripts/cfDNA_pre-processing.sh</Typography>
-                              <Typography variant="body1"><b>Directory:</b> /vast/projects/TDE/TDE0005</Typography>
-                              <Typography variant="body1"><b>Configuration file:</b> /vast/projects/TDE/TDE0005/pre-processing/TDE0005-002.ini</Typography>
-                              <Typography variant="body1"><b>Output directory:</b> /vast/projects/TDE/TDE0005/processed/TDE0005-002/</Typography>
-                              <Typography variant="body1"><b>Log file:</b> /vast/projects/TDE/TDE0005/processed/TDE0005-002/out.log</Typography>
+                              <Typography variant="body1"><b>Directory:</b> /vast/projects/TDE/TDE0001</Typography>
+                              <Typography variant="body1"><b>Configuration file:</b> /vast/projects/TDE/TDE0001/pre-processing/TDE0001-002.ini</Typography>
+                              <Typography variant="body1"><b>Output directory:</b> /vast/projects/TDE/TDE0001/processed/TDE0001-002/</Typography>
+                              <Typography variant="body1"><b>Log file:</b> /vast/projects/TDE/TDE0001/processed/TDE0001-002/out.log</Typography>
                             </Paper>
                           </DialogContent>
 
