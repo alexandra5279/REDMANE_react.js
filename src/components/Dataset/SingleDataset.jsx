@@ -356,12 +356,14 @@ export default function AllDatasets() {
                           </Button>
                         </Tooltip>
                         <Divider sx={{ my: 2 }} />
-                        
+
                         <Typography variant="h6" sx={{ fontWeight: 'bold' }}>Other views</Typography>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/dashboard')}>All Samples View</Button>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/datasets')}>All Datasets View</Button>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/patients')}>All Samples Summary</Button>
-                        <Button variant="outlined" sx={{ mt: 1 }}>Files for this dataset</Button>
+
+                        {/* hard coded */}
+                        <Button variant="outlined" sx={{ mt: 1 }} onClick={() => navigate('/dataset/details/BIOL10001')}>Files for this dataset</Button>
                     </Paper>
                     </Grid>
                 </Grid>

@@ -30,28 +30,6 @@ import dataset from '../../assets/testjson/output.json';
 
 
 // Generate Order Data, this will be replaced with data from the backend
-function createData(id, dId, date, name, source) {
-    return { id, dId, date, name, source};
-}
-
-const rows = [
-    createData(5, 'BIOL10001', '16 Aug, 2024', 'GeneFlow', 'University of Melbourne'),
-    createData(2, 'GENE10002', '16 Jun, 2024', 'BioSpectrum', 'cBioPortal'),
-    createData(10, 'BIOL10001', '16 Aug, 2024', 'GeneFlow', 'University of Melbourne'),
-    createData(1, 'GENE10001', '26 Jun, 2024', 'VitalMetrics', 'University of Melbourne'),
-    createData(12, 'GENE10002', '16 Jun, 2024', 'BioSpectrum', 'cBioPortal'),
-    createData(7, 'GENE10002', '16 Jun, 2024', 'BioSpectrum', 'cBioPortal'),
-    createData(14, 'GENE10003', '15 Apr, 2024', 'GenomicAtlas', 'USYD'),
-    createData(0, 'BIOL10001', '16 Aug, 2024', 'GeneFlow', 'University of Melbourne'),
-    createData(9, 'GENE10003', '15 Apr, 2024', 'GenomicAtlas', 'USYD'),
-    createData(11, 'GENE10001', '26 Jun, 2024', 'VitalMetrics', 'University of Melbourne'),
-    createData(6, 'GENE10001', '26 Jun, 2024', 'VitalMetrics', 'University of Melbourne'),
-    createData(3, 'BIOL10006', '16 May, 2024', 'CellBase', 'WEHI'),
-    createData(4, 'GENE10003', '15 Apr, 2024', 'GenomicAtlas', 'USYD'),
-    createData(8, 'BIOL10006', '16 May, 2024', 'CellBase', 'WEHI'),
-    createData(13, 'BIOL10006', '16 May, 2024', 'CellBase', 'WEHI'),
-  ];
-  
   function preventDefault(event) {
     event.preventDefault();
   }
@@ -409,7 +387,9 @@ export default function AllDatasets() {
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/dashboard')}>All Samples View</Button>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/datasets')}>All Datasets View</Button>
                         <Button variant="outlined" sx={{ mr: 2, mt: 1 }} onClick={() => navigate('/patients')}>All Samples Summary</Button>
-                        <Button variant="outlined" sx={{ mt: 1 }}>Files for this dataset</Button>
+
+                        {/* hard coded */}
+                        <Button variant="outlined" sx={{ mt: 1 }} onClick={() => navigate('/dataset/details/BIOL10001')}>Files for this dataset</Button>
                     </Paper>
                     </Grid>
                 </Grid>
